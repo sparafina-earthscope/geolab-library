@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GeoLab Library Listing</title>
+  <meta name="description" content="Fill out a GeoLab Community Library project listing and download it as a YAML file.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="form.css">
+  <script src="form.js" defer></script>
+</head>
+<body>
+  <header class="page-header">
+    <h1 id="form-title">GeoLab Library project listing</h1>
+    <p>
+      Fill out this form to create the listing file for your project. When you're done, download the file
+      and add it to the <code>projects/</code> folder of the
+      <a href="https://github.com/EarthScope/geolab-library">geolab-library repository</a> in a pull request.
+      See <a href="https://docs.earthscope.org/geolab/library/contributing">Contributing to the Library</a>
+      for the full steps.
+    </p>
+    <p>Nothing you enter leaves your browser until you download or submit the file yourself.</p>
+    <noscript>
+      <p class="notice">This form needs JavaScript to build the file. You can also copy
+        <a href="https://github.com/EarthScope/geolab-library/blob/main/template.yml">template.yml</a>
+        and fill it in by hand.</p>
+    </noscript>
+  </header>
+
+  <main class="layout">
+    <form id="listing-form" class="listing-form" action="#" method="post" aria-labelledby="form-title">
+      <p class="required-note">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+
+      <fieldset>
+        <legend>File</legend>
+
+        <div class="field">
+          <label for="filename">File name <span aria-hidden="true">*</span></label>
+          <span id="filename-hint" class="hint">Letters, numbers, hyphens and underscores. The <code>.yml</code> extension is added for you.</span>
+          <div class="suffix-input">
+            <input type="text" id="filename" name="filename" required
+                   pattern="[A-Za-z0-9][A-Za-z0-9_\-]*" maxlength="80"
+                   autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                   aria-describedby="filename-hint" data-error="filename-error">
+            <span class="suffix" aria-hidden="true">.yml</span>
+          </div>
+          <div id="filename-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter a file name using only letters, numbers, hyphens and underscores, for example <code>gnss_reflectometry</code>.
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>About the project</legend>
+
+        <div class="field">
+          <label for="title">Project title <span aria-hidden="true">*</span></label>
+          <input type="text" id="title" name="title" required maxlength="120" data-error="title-error">
+          <div id="title-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter a title for your project.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="summary">Summary <span aria-hidden="true">*</span></label>
+          <span id="summary-hint" class="hint">One or two sentences. This appears on the project's card in the library.</span>
+          <textarea id="summary" name="summary" required maxlength="400" rows="3"
+                    aria-describedby="summary-hint" data-error="summary-error"></textarea>
+          <div id="summary-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter a short summary of your project.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="description">Description</label>
+          <span id="description-hint" class="hint">One to four paragraphs on the goals, methods and outcomes of your project. Leave a blank line between paragraphs.</span>
+          <textarea id="description" name="description" rows="6" aria-describedby="description-hint"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="tags">Tags</label>
+          <span id="tags-hint" class="hint">Separate tags with commas, for example <code>seismology, obspy, data_access</code>. Sub-domains, techniques, data types and key packages make good tags.</span>
+          <input type="text" id="tags" name="tags" maxlength="300"
+                 autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="tags-hint">
+        </div>
+
+        <fieldset class="field choice-group" id="type-group">
+          <legend>Type <span aria-hidden="true">*</span></legend>
+          <span id="type-hint" class="hint">Select all that apply.</span>
+          <div class="choice">
+            <input type="checkbox" id="type-notebook" name="type" value="notebook"
+                   aria-describedby="type-hint" data-error="type-error">
+            <label for="type-notebook">Notebook</label>
+          </div>
+          <div class="choice">
+            <input type="checkbox" id="type-image" name="type" value="image" aria-describedby="type-hint">
+            <label for="type-image">Container image</label>
+          </div>
+          <div id="type-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Select at least one type.
+          </div>
+        </fieldset>
+
+        <div class="field image-only">
+          <label for="image_tag">Image tag</label>
+          <span id="image-tag-hint" class="hint">The full tag of your custom GeoLab image, for example <code>ghcr.io/your-org/my-geolab-image:0.1.0</code>. Only for container images.</span>
+          <input type="text" id="image_tag" name="image_tag" maxlength="300"
+                 autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="image-tag-hint">
+        </div>
+
+        <fieldset class="field choice-group">
+          <legend>Difficulty</legend>
+          <div class="choice">
+            <input type="radio" id="difficulty-beginner" name="difficulty" value="beginner">
+            <label for="difficulty-beginner">Beginner</label>
+          </div>
+          <div class="choice">
+            <input type="radio" id="difficulty-intermediate" name="difficulty" value="intermediate">
+            <label for="difficulty-intermediate">Intermediate</label>
+          </div>
+          <div class="choice">
+            <input type="radio" id="difficulty-advanced" name="difficulty" value="advanced">
+            <label for="difficulty-advanced">Advanced</label>
+          </div>
+          <div class="choice">
+            <input type="radio" id="difficulty-expert" name="difficulty" value="expert">
+            <label for="difficulty-expert">Expert</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="time_amount">Time commitment</label>
+          <span id="time-hint" class="hint">About how long it takes to work through the project.</span>
+          <div class="inline-controls">
+            <input type="text" id="time_amount" name="time_amount" inputmode="decimal"
+                   pattern="[0-9]+([.][0-9]+)?" maxlength="6"
+                   aria-describedby="time-hint" data-error="time-error">
+            <label class="visually-hidden" for="time_unit">Unit</label>
+            <select id="time_unit" name="time_unit">
+              <option value="minutes">minutes</option>
+              <option value="hours">hours</option>
+            </select>
+          </div>
+          <div id="time-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter a number, for example <code>45</code> or <code>1.5</code>.
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>People</legend>
+
+        <div class="field">
+          <label for="author">Authors <span aria-hidden="true">*</span></label>
+          <span id="author-hint" class="hint">One name per line.</span>
+          <textarea id="author" name="author" required rows="3" maxlength="1000"
+                    autocomplete="off" spellcheck="false"
+                    aria-describedby="author-hint" data-error="author-error"></textarea>
+          <div id="author-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter at least one author.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="author_institution">Institution</label>
+          <input type="text" id="author_institution" name="author_institution" maxlength="200" autocomplete="organization">
+        </div>
+
+        <div class="field">
+          <label for="maintainer_contact">Maintainer email <span aria-hidden="true">*</span></label>
+          <span id="contact-hint" class="hint">Who to contact about the project, for example you@example.org.</span>
+          <input type="email" id="maintainer_contact" name="maintainer_contact" required maxlength="254"
+                 autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="contact-hint" data-error="contact-error">
+          <div id="contact-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter an email address in the format you@example.org.
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Links</legend>
+
+        <div class="field">
+          <label for="github">Repository URL <span aria-hidden="true">*</span></label>
+          <span id="github-hint" class="hint">The public GitHub or GitLab repository, for example https://github.com/your-org/your-repo.</span>
+          <input type="url" id="github" name="github" required maxlength="500"
+                 pattern="https?://.+" placeholder="https://github.com/"
+                 autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="github-hint" data-error="github-error">
+          <div id="github-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter the full repository URL, starting with https://.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="nbgitpuller">Open in GeoLab link</label>
+          <span id="nbgitpuller-hint" class="hint">
+            An <a href="https://docs.earthscope.org/geolab/advanced_topics/nbgitpuller">nbgitpuller link</a> to your notebooks,
+            or a <a href="https://2i2c.org/jupyterhub-fancy-profiles/v0.7.0/permalink/">launch permalink</a> for a container image.
+            The project's card opens this link.
+          </span>
+          <input type="url" id="nbgitpuller" name="nbgitpuller" maxlength="2000"
+                 pattern="https?://.+"
+                 autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="nbgitpuller-hint" data-error="nbgitpuller-error">
+          <div id="nbgitpuller-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter the full link, starting with https://.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="thumbnail">Thumbnail image</label>
+          <span id="thumbnail-hint" class="hint">A full image URL, or a path to the image in your repository. A 16:9 landscape image works best. For an image on GitHub, add <code>?raw=true</code> to the end of its URL.</span>
+          <input type="text" id="thumbnail" name="thumbnail" maxlength="1000"
+                 autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="thumbnail-hint">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Running and citing</legend>
+
+        <div class="field">
+          <label for="recommended_resource_allocation">Recommended resource allocation</label>
+          <span id="resources-hint" class="hint">The memory your project needs, for example <code>4GB</code>.</span>
+          <input type="text" id="recommended_resource_allocation" name="recommended_resource_allocation"
+                 value="4GB" pattern="[0-9]+([.][0-9]+)?\s?[GgMm][Bb]" maxlength="10"
+                 autocorrect="off" autocapitalize="none" spellcheck="false"
+                 aria-describedby="resources-hint" data-error="resources-error">
+          <div id="resources-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter an amount in GB or MB, for example <code>4GB</code>.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="citation">Citation</label>
+          <span id="citation-hint" class="hint">A DOI, a publication URL, or the exact text you want people to use to cite your work.</span>
+          <textarea id="citation" name="citation" rows="2" maxlength="1000" aria-describedby="citation-hint"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="last_updated">Last tested in GeoLab <span aria-hidden="true">*</span></label>
+          <span id="updated-hint" class="hint">The date you last checked that your project works in GeoLab.</span>
+          <input type="date" id="last_updated" name="last_updated" required
+                 aria-describedby="updated-hint" data-error="updated-error">
+          <div id="updated-error" class="error-msg">
+            <span role="img" aria-label="Error">✕</span> Enter the date you last tested your project.
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="primary" name="action" value="download">Download listing file</button>
+        <button type="submit" name="action" value="github" aria-describedby="pr-hint">Add to GitHub</button>
+        <button type="reset">Clear form</button>
+      </div>
+      <p id="pr-hint" class="hint">
+        <strong>Add to GitHub</strong> opens GitHub with your file already in the <code>projects/</code> folder.
+        GitHub makes a copy of the repository for you and walks you through opening a pull request.
+      </p>
+      <p id="form-status" class="status" role="status"></p>
+    </form>
+
+    <section class="preview" aria-labelledby="preview-title">
+      <div class="preview-header">
+        <h2 id="preview-title">Preview: <span id="preview-filename">listing.yml</span></h2>
+        <span class="copy">
+          <button type="button" class="copy-button" command="--copy" commandfor="yaml-output" aria-label="Copy YAML">
+            <svg class="icon icon-copy" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            <svg class="icon icon-check" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          </button>
+          <span class="tip" role="status"></span>
+        </span>
+      </div>
+      <pre tabindex="0" aria-labelledby="preview-title"><code id="yaml-output"></code></pre>
+    </section>
+  </main>
+</body>
+</html>

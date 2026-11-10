@@ -1,0 +1,353 @@
+/* GeoLab Library listing form.
+   Follows the forms, validation and theming guidance in
+   https://github.com/GoogleChrome/modern-web-guidance-src */
+
+:root {
+  color-scheme: light dark;
+
+  --bg-light: #ffffff;        --bg-dark: #0f1419;
+  --surface-light: #f5f7f9;   --surface-dark: #182029;
+  --text-light: #1b1f24;      --text-dark: #e6e9ed;
+  --muted-light: #57606a;     --muted-dark: #a2abb5;
+  --border-light: #767676;    --border-dark: #8b949e;
+  --accent-light: #0b57d0;    --accent-dark: #7cacf8;
+  --accent-text-light: #ffffff; --accent-text-dark: #0b1a33;
+  --error-light: #b3261e;     --error-dark: #ff8a80;
+  --error-bg-light: #fce8e6;  --error-bg-dark: #3a1714;
+  --ok-light: #146c2e;        --ok-dark: #6dd58c;
+
+  /* Fallback for browsers without light-dark() */
+  --bg: var(--bg-light);
+  --surface: var(--surface-light);
+  --text: var(--text-light);
+  --muted: var(--muted-light);
+  --border: var(--border-light);
+  --accent: var(--accent-light);
+  --accent-text: var(--accent-text-light);
+  --error: var(--error-light);
+  --error-bg: var(--error-bg-light);
+  --ok: var(--ok-light);
+
+  @media (prefers-color-scheme: dark) {
+    --bg: var(--bg-dark);
+    --surface: var(--surface-dark);
+    --text: var(--text-dark);
+    --muted: var(--muted-dark);
+    --border: var(--border-dark);
+    --accent: var(--accent-dark);
+    --accent-text: var(--accent-text-dark);
+    --error: var(--error-dark);
+    --error-bg: var(--error-bg-dark);
+    --ok: var(--ok-dark);
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --bg: light-dark(var(--bg-light), var(--bg-dark));
+    --surface: light-dark(var(--surface-light), var(--surface-dark));
+    --text: light-dark(var(--text-light), var(--text-dark));
+    --muted: light-dark(var(--muted-light), var(--muted-dark));
+    --border: light-dark(var(--border-light), var(--border-dark));
+    --accent: light-dark(var(--accent-light), var(--accent-dark));
+    --accent-text: light-dark(var(--accent-text-light), var(--accent-text-dark));
+    --error: light-dark(var(--error-light), var(--error-dark));
+    --error-bg: light-dark(var(--error-bg-light), var(--error-bg-dark));
+    --ok: light-dark(var(--ok-light), var(--ok-dark));
+  }
+
+  accent-color: var(--accent);
+}
+
+body {
+  margin: 0;
+  padding-inline: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+a { color: var(--accent); }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.page-header,
+.layout {
+  max-inline-size: 76rem;
+  margin-inline: auto;
+}
+
+.page-header {
+  padding-block: 2rem 1rem;
+
+  & h1 { margin-block: 0 0.75rem; font-size: 1.75rem; line-height: 1.2; }
+  & p { max-inline-size: 65ch; margin-block: 0 0.5rem; }
+}
+
+.notice {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* Single-column form; the preview sits beside it on wide screens. */
+.layout {
+  display: grid;
+  gap: 2rem;
+  padding-block-end: 3rem;
+
+  @media (min-width: 64rem) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.listing-form {
+  min-inline-size: 0;
+}
+
+.required-note {
+  margin-block: 0 1rem;
+  color: var(--muted);
+}
+
+fieldset {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.listing-form > fieldset > legend {
+  margin-block-end: 0.75rem;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  margin-block-end: 1.5rem;
+}
+
+.field > label,
+.choice-group > legend {
+  font-weight: 600;
+  padding: 0;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+input:where([type="text"], [type="email"], [type="url"], [type="date"]),
+textarea,
+select {
+  font: inherit;
+  font-size: max(1rem, 1em);
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem;
+  min-block-size: 48px;
+  box-sizing: border-box;
+}
+
+textarea {
+  inline-size: 100%;
+  field-sizing: content;
+  min-block-size: 3lh;
+  max-block-size: 16lh;
+}
+
+:is(input, textarea, select, button, a, pre):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.suffix-input,
+.inline-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  & input { flex: 1; min-inline-size: 0; }
+}
+
+.inline-controls input { flex: 0 1 8rem; }
+
+.suffix {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--muted);
+}
+
+/* Checkboxes and radio buttons */
+.choice-group { gap: 0.35rem; }
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  & input { inline-size: 1.25rem; block-size: 1.25rem; margin: 0; }
+  /* Larger tap target without shifting the layout */
+  & label { padding-block: 0.6rem; margin-block: -0.35rem; flex: 1; }
+}
+
+/* Show the image tag field only for container images. */
+.image-only { display: none; }
+.listing-form:has(#type-image:checked) .image-only { display: flex; }
+
+/* Validation: show errors only after the user has interacted with a field. */
+.error-msg {
+  display: none;
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+.field:has(:user-invalid) .error-msg { display: block; }
+
+:is(input, textarea, select):user-invalid {
+  border-color: var(--error);
+  border-width: 2px;
+  background-color: var(--error-bg);
+}
+
+:is(input, textarea):required:user-valid {
+  border-color: var(--ok);
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block: 0.5rem 0.75rem;
+}
+
+button {
+  font: inherit;
+  font-size: max(1rem, 1em);
+  min-block-size: 48px;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: inherit;
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.status {
+  min-block-size: 1.5em;
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+
+/* Preview */
+.preview {
+  min-inline-size: 0;
+
+  @media (min-width: 64rem) {
+    position: sticky;
+    inset-block-start: 1rem;
+  }
+
+  & pre {
+    margin: 0;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: auto;
+    max-block-size: calc(100vh - 7rem);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 0.5rem;
+
+  & h2 { margin: 0; font-size: 1.2rem; overflow-wrap: anywhere; }
+}
+
+/* Copy button */
+.copy {
+  position: relative;
+  flex: none;
+}
+
+.copy-button {
+  display: grid;
+  place-items: center;
+  min-inline-size: 48px;
+  padding: 0.5rem;
+
+  & .icon {
+    grid-area: 1 / 1;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: opacity 0.15s;
+  }
+  & .icon-check { opacity: 0; color: var(--ok); }
+  &[data-copied] .icon-copy { opacity: 0; }
+  &[data-copied] .icon-check { opacity: 1; }
+  &[data-failed] { border-color: var(--error); }
+}
+
+.tip {
+  position: absolute;
+  inset-block-end: calc(100% + 0.4rem);
+  inset-inline-end: 0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+
+  &:not(:empty) { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-button .icon, .tip { transition: none; }
+}
+
+/* Hides content visually but keeps it in the accessibility tree */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
