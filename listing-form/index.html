@@ -104,7 +104,7 @@
 
         <div class="field image-only">
           <label for="image_tag">Image tag</label>
-          <span id="image-tag-hint" class="hint">The full tag of your custom GeoLab image, for example <code>ghcr.io/your-org/my-geolab-image:0.1.0</code>. Only for container images.</span>
+          <span id="image-tag-hint" class="hint">The full tag of your custom GeoLab image, for example <code>ghcr.io/your-org/my-geolab-image:0.1.0</code>. Only for container images. The image is checked when you open the pull request.</span>
           <input type="text" id="image_tag" name="image_tag" maxlength="300"
                  autocorrect="off" autocapitalize="none" spellcheck="false"
                  aria-describedby="image-tag-hint">
@@ -193,6 +193,7 @@
           <div id="github-error" class="error-msg">
             <span role="img" aria-label="Error">✕</span> Enter the full repository URL, starting with https://.
           </div>
+          <div id="github-check" class="check"></div>
         </div>
 
         <div class="field">
@@ -209,6 +210,7 @@
           <div id="nbgitpuller-error" class="error-msg">
             <span role="img" aria-label="Error">✕</span> Enter the full link, starting with https://.
           </div>
+          <div id="nbgitpuller-check" class="check"></div>
         </div>
 
         <div class="field">
@@ -217,6 +219,8 @@
           <input type="text" id="thumbnail" name="thumbnail" maxlength="1000"
                  autocorrect="off" autocapitalize="none" spellcheck="false"
                  aria-describedby="thumbnail-hint">
+          <div id="thumbnail-check" class="check"></div>
+          <img id="thumbnail-preview" class="thumb-preview" alt="Preview of the thumbnail image" hidden>
         </div>
       </fieldset>
 
@@ -257,6 +261,7 @@
         <button type="submit" name="action" value="github" aria-describedby="pr-hint">Add to GitHub</button>
         <button type="reset">Clear form</button>
       </div>
+      <p class="hint">Links are checked when you leave each link field. Warnings don't stop you from downloading the file.</p>
       <p id="pr-hint" class="hint">
         <strong>Add to GitHub</strong> opens GitHub with your file already in the <code>projects/</code> folder.
         GitHub makes a copy of the repository for you and walks you through opening a pull request.

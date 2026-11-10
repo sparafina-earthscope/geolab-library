@@ -228,15 +228,223 @@ document.addEventListener('reset', (e) => {
   setTimeout(() => [...e.target.elements].forEach((el) => syncAria(el)));
 }, true);
 
+// ── Link checks ────────────────────────────────────────────────────────
+// Warnings only: they never stop someone downloading the file. The pull
+// request check (scripts/check_listings.py) runs the same checks, and more.
+
+class CheckFailed extends Error {}
+
+const enc = encodeURIComponent;
+const encodePath = (path) => path.split('/').map(enc).join('/');
+
+// github.com/<owner>/<repo>, optionally followed by /tree/<branch>/<folder> or /blob/<branch>/<file>.
+const GITHUB_URL = /^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+?)(?:\.git)?(?:\/(?:tree|blob)\/([^/?#]+)(\/[^?#]*)?)?\/?(?:[?#].*)?$/i;
+
+function parseGitHub(url) {
+  const match = GITHUB_URL.exec(url);
+  if (!match) return null;
+  return { owner: match[1], repo: match[2], ref: match[3] ?? '', path: (match[4] ?? '').replace(/^\/+|\/+$/g, '') };
+}
+
+async function githubApi(path, signal) {
+  let response;
+  try {
+    response = await fetch(`https://api.github.com${path}`, { signal, headers: { Accept: 'application/vnd.github+json' } });
+  } catch (err) {
+    if (err.name === 'AbortError') throw err;
+    throw new CheckFailed("Couldn't reach GitHub to check this link. It will be checked when you open the pull request.");
+  }
+  if (response.status === 404) return null;
+  if (response.status === 403 || response.status === 429) {
+    throw new CheckFailed('GitHub limits how many links this page can check, and the limit has been reached. The link will be checked when you open the pull request.');
+  }
+  if (!response.ok) throw new CheckFailed(`GitHub returned an error (${response.status}) while checking this link.`);
+  return response.json();
+}
+
+const getRepo = (owner, repo, signal) => githubApi(`/repos/${enc(owner)}/${enc(repo)}`, signal);
+
+async function pathExists({ owner, repo, ref, path }, signal) {
+  const query = ref ? `?ref=${enc(ref)}` : '';
+  return (await githubApi(`/repos/${enc(owner)}/${enc(repo)}/contents/${encodePath(path)}${query}`, signal)) !== null;
+}
+
+const notFoundRepo = (owner, repo) => `GitHub couldn't find the repository ${owner}/${repo}. Check the URL, and that the repository is public.`;
+
+async function checkRepository(value, signal) {
+  const gh = parseGitHub(value);
+  if (!gh) return ['', '']; // GitLab and other hosts are checked in the pull request
+  const info = await getRepo(gh.owner, gh.repo, signal);
+  if (!info) return ['warn', notFoundRepo(gh.owner, gh.repo)];
+  if (gh.path && !(await pathExists(gh, signal))) {
+    return ['warn', `${gh.path} isn't on the ${gh.ref} branch of ${info.full_name}. Check the URL.`];
+  }
+  return ['ok', `Found ${info.full_name}${gh.path ? `/${gh.path}` : ''} on GitHub.`];
+}
+
+// The file or folder an nbgitpuller urlpath opens, relative to the repository.
+// urlpath is "lab/tree/<clone folder>/<path>" (or tree/, render/, notebooks/, edit/).
+function notebookPath(urlpath) {
+  const parts = urlpath.split(/[?#]/)[0].split('/').filter(Boolean);
+  const index = parts.findIndex((part) => ['tree', 'render', 'notebooks', 'edit'].includes(part));
+  if (index === -1) return '';
+  return parts.slice(index + 2).map((part) => {
+    try { return decodeURIComponent(part); } catch { return part; }
+  }).join('/');
+}
+
+async function checkNotebook(value, signal) {
+  const url = new URL(value);
+  if (url.hostname !== 'geolab.earthscope.cloud') {
+    return ['warn', "This link doesn't open GeoLab. It should start with https://geolab.earthscope.cloud/."];
+  }
+  const repoUrl = url.searchParams.get('repo');
+  if (!repoUrl) return ['', '']; // a launch permalink, with no repository to check
+  const gh = parseGitHub(repoUrl);
+  if (!gh) return ['', ''];
+  const branch = url.searchParams.get('branch') ?? '';
+  const path = notebookPath(url.searchParams.get('urlpath') ?? '');
+
+  const info = await getRepo(gh.owner, gh.repo, signal);
+  if (!info) return ['warn', `${notFoundRepo(gh.owner, gh.repo)} It comes from the repo= part of the link.`];
+  if (path) {
+    if (!(await pathExists({ owner: gh.owner, repo: gh.repo, ref: branch, path }, signal))) {
+      const where = branch ? `the ${branch} branch` : 'the default branch';
+      return ['warn', `${path} isn't on ${where} of ${info.full_name}. Check the urlpath= and branch= parts of the link.`];
+    }
+  } else if (branch && !(await githubApi(`/repos/${enc(gh.owner)}/${enc(gh.repo)}/branches/${enc(branch)}`, signal))) {
+    return ['warn', `${info.full_name} has no branch called ${branch}. Check the branch= part of the link.`];
+  }
+  return ['ok', `Found ${path || 'the repository'} in ${info.full_name}${branch ? ` (${branch} branch)` : ''}.`];
+}
+
+// Same rule as library_listing.py: a relative thumbnail path is read from the
+// repository's default branch, and only when the repository URL is the repo's main page.
+const LISTING_REPO = /^https?:\/\/github\.com\/([^/]+\/[^/]+?)(?:\.git)?\/?$/;
+
+function resolveThumbnail(thumbnail, github) {
+  if (/^https?:\/\//.test(thumbnail)) return thumbnail;
+  const match = LISTING_REPO.exec(github);
+  return match ? `https://raw.githubusercontent.com/${match[1]}/HEAD/${thumbnail.replace(/^\/+/, '')}` : null;
+}
+
+function loadImage(src, signal) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    signal.addEventListener('abort', () => {
+      img.src = '';
+      reject(new DOMException('Aborted', 'AbortError'));
+    });
+    img.src = src;
+  });
+}
+
+const preview = document.getElementById('thumbnail-preview');
+
+async function checkThumbnail(value, signal) {
+  const github = field('github').value.trim();
+  const src = resolveThumbnail(value, github);
+  if (!src) {
+    return ['warn', github
+      ? "The library can only find an image by its path when the repository URL is the repository's main page, like https://github.com/your-org/your-repo. Use the image's full URL instead."
+      : "Enter the repository URL so the library can find this image, or use the image's full URL."];
+  }
+  if (/^https?:\/\/(?:www\.)?github\.com\/[^?#]+\/blob\//i.test(src) && !/[?&]raw=true\b/.test(src)) {
+    return ['warn', "This links to GitHub's page about the image, not the image itself. Add ?raw=true to the end of the URL."];
+  }
+  if (!(await loadImage(src, signal))) {
+    return ['warn', "The image couldn't be loaded. Check the URL or path, and that the file is public."];
+  }
+  preview.src = src;
+  preview.hidden = false;
+  return ['ok', 'Image found. This is how it will be cropped on the project card.'];
+}
+
+const LINK_CHECKS = { github: checkRepository, nbgitpuller: checkNotebook, thumbnail: checkThumbnail };
+const running = new Map();
+
+// Add or remove one id in a field's aria-describedby.
+function describe(el, id, on) {
+  const ids = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter((x) => x && x !== id);
+  if (on) ids.push(id);
+  if (ids.length) el.setAttribute('aria-describedby', ids.join(' '));
+  else el.removeAttribute('aria-describedby');
+}
+
+function showCheck(input, state, message) {
+  const box = document.getElementById(`${input.id}-check`);
+  box.dataset.state = state;
+  box.replaceChildren();
+  if (message) {
+    const icon = document.createElement('span');
+    if (state === 'warn') {
+      icon.setAttribute('role', 'img');
+      icon.setAttribute('aria-label', 'Warning');
+      icon.textContent = '⚠';
+    } else if (state === 'ok') {
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = '✓';
+    }
+    box.append(...(icon.textContent ? [icon, ' '] : []), message);
+  }
+  if (input.id === 'thumbnail' && state !== 'ok') {
+    preview.hidden = true;
+    preview.removeAttribute('src');
+  }
+  // Read the warning with the field, and announce it once through the page's live region.
+  describe(input, box.id, state === 'warn');
+  if (state === 'warn') {
+    clearTimeout(announceTimer);
+    announcer.textContent = '';
+    announceTimer = setTimeout(() => {
+      announcer.textContent = `${spokenText(input.labels[0])}: ${spokenText(box)}`;
+    }, 500);
+  }
+}
+
+function clearCheck(input) {
+  running.get(input.id)?.abort();
+  running.delete(input.id);
+  showCheck(input, '', '');
+}
+
+async function runCheck(input) {
+  running.get(input.id)?.abort();
+  const value = input.value.trim();
+  if (!value || !input.validity.valid) {
+    clearCheck(input);
+    return;
+  }
+  const controller = new AbortController();
+  running.set(input.id, controller);
+  showCheck(input, 'checking', 'Checking the link…');
+  try {
+    const [state, message] = await LINK_CHECKS[input.id](value, controller.signal);
+    if (!controller.signal.aborted) showCheck(input, state, message);
+  } catch (err) {
+    if (controller.signal.aborted || err.name === 'AbortError') return;
+    showCheck(input, 'skip', err instanceof CheckFailed ? err.message : "Couldn't check this link.");
+  }
+}
+
 // ── Form events ────────────────────────────────────────────────────────
 
-form.addEventListener('input', () => {
+form.addEventListener('input', (event) => {
   status.textContent = '';
+  // A result for the old value would be misleading while the link is being edited.
+  if (event.target.id in LINK_CHECKS) clearCheck(event.target);
   render();
 });
-form.addEventListener('change', () => {
+form.addEventListener('change', (event) => {
   checkTypes();
   render();
+  // 'change' fires when the person leaves a field they've edited.
+  const { id } = event.target;
+  if (id in LINK_CHECKS) runCheck(event.target);
+  // A relative thumbnail path depends on the repository URL.
+  if (id === 'github' && field('thumbnail').value.trim()) runCheck(field('thumbnail'));
 });
 
 form.addEventListener('reset', () => {
@@ -245,6 +453,7 @@ form.addEventListener('reset', () => {
     fileNameEdited = false;
     setDefaults();
     checkTypes();
+    Object.keys(LINK_CHECKS).forEach((id) => clearCheck(field(id)));
     status.textContent = '';
     render();
   });

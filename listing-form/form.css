@@ -15,6 +15,7 @@
   --error-light: #b3261e;     --error-dark: #ff8a80;
   --error-bg-light: #fce8e6;  --error-bg-dark: #3a1714;
   --ok-light: #146c2e;        --ok-dark: #6dd58c;
+  --warn-light: #8a4b00;      --warn-dark: #f5b74f;
 
   /* Fallback for browsers without light-dark() */
   --bg: var(--bg-light);
@@ -27,6 +28,7 @@
   --error: var(--error-light);
   --error-bg: var(--error-bg-light);
   --ok: var(--ok-light);
+  --warn: var(--warn-light);
 
   @media (prefers-color-scheme: dark) {
     --bg: var(--bg-dark);
@@ -39,6 +41,7 @@
     --error: var(--error-dark);
     --error-bg: var(--error-bg-dark);
     --ok: var(--ok-dark);
+    --warn: var(--warn-dark);
   }
 
   @supports (color: light-dark(white, black)) {
@@ -52,6 +55,7 @@
     --error: light-dark(var(--error-light), var(--error-dark));
     --error-bg: light-dark(var(--error-bg-light), var(--error-bg-dark));
     --ok: light-dark(var(--ok-light), var(--ok-dark));
+    --warn: light-dark(var(--warn-light), var(--warn-dark));
   }
 
   accent-color: var(--accent);
@@ -222,6 +226,27 @@ textarea {
 
 :is(input, textarea):required:user-valid {
   border-color: var(--ok);
+}
+
+/* Link checks: results appear under the field after it's left. */
+.check {
+  color: var(--muted);
+  font-size: 0.9rem;
+
+  &:empty { display: none; }
+  &[data-state="ok"] { color: var(--ok); }
+  &[data-state="warn"] { color: var(--warn); font-weight: 600; }
+}
+
+.thumb-preview {
+  inline-size: min(100%, 20rem);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-block-start: 0.25rem;
+
+  &[hidden] { display: none; }
 }
 
 /* Buttons */

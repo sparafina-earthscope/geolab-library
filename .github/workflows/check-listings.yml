@@ -1,0 +1,45 @@
+# Checks the links in project listing files added or changed by a pull request:
+# repository, nbgitpuller notebook, thumbnail and container image.
+name: Check listings
+
+on:
+  pull_request:
+    paths:
+      - "projects/**"
+      - "scripts/check_listings.py"
+      - ".github/workflows/check-listings.yml"
+  workflow_dispatch: # run by hand to check every listing
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: pip install "PyYAML>=6,<7"
+
+      - name: Check listing links
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ -z "$BASE_SHA" ]; then
+            python scripts/check_listings.py
+            exit $?
+          fi
+          mapfile -t files < <(git diff --name-only --diff-filter=AMR "$BASE_SHA"...HEAD -- 'projects/*.yml' 'projects/*.yaml')
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No listing files changed."
+            exit 0
+          fi
+          python scripts/check_listings.py "${files[@]}"

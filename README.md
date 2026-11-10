@@ -87,6 +87,37 @@ when the counts are equal. It never edits files: fix the tags in the project
 YAML by hand. It does not match initials against full names (`S. Parafina` /
 `Sophia Parafina`).
 
+## Check links
+
+[`scripts/check_listings.py`](scripts/check_listings.py) checks the links in
+listing files. The [Check listings](.github/workflows/check-listings.yml)
+workflow runs it on every pull request that adds or changes a file in
+`projects/`, and fails the check if a link is broken:
+
+```bash
+python scripts/check_listings.py                          # every file in projects/
+python scripts/check_listings.py projects/birthquake.yml  # just this file
+```
+
+It checks that:
+
+- the file is valid YAML
+- `github` is a public repository, and a `/tree/<branch>/<folder>` URL points
+  to a folder that exists
+- `nbgitpuller` opens GeoLab, and its repository, branch and notebook exist
+- `thumbnail` loads as an image, found the same way the gallery finds it
+- `image_tag`, and `recommended_image` when it names a registry image, is a
+  public image in its registry (Docker Hub, GHCR, public ECR and others) with
+  that tag
+
+A link that can't be checked at the moment, because of a timeout or GitHub's
+rate limit, is a warning rather than an error. Set `GITHUB_TOKEN` (for
+example, `GITHUB_TOKEN=$(gh auth token)`) to raise the GitHub rate limit when
+running it locally.
+
+The [listing form](listing-form/) runs the repository, notebook and thumbnail
+checks in the browser as contributors fill it in, as warnings only.
+
 ## How it works
 
 ```
