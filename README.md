@@ -12,10 +12,22 @@ with [MyST](https://mystmd.org) and deployed by Netlify.
 Copy [`template.yml`](template.yml) into `projects/`, fill it in, and open a
 pull request. See https://docs.earthscope.org/geolab/library/contributing for contributor instructions.
 
-Or fill in the [listing form](listing-form/), which opens the pull request on
-GitHub with the file already written. The people in
-[`.github/CODEOWNERS`](.github/CODEOWNERS) are asked to review, and notified
-of, every pull request that changes `projects/`.
+Or fill in the [listing form](listing-form/). It opens a GitHub issue with the
+listing in it. When the issue is created, the
+[Listing from issue](.github/workflows/listing-from-issue.yml) workflow
+([`scripts/listing_from_issue.py`](scripts/listing_from_issue.py)) checks the
+links, commits the file to a branch named after it (`gnss_ir.yml` goes on
+branch `gnss_ir`), opens a pull request that closes the issue, and posts the
+link in the issue. If something's wrong, it says so in an issue comment
+instead. Editing the issue updates the pull request. It won't overwrite an
+existing listing or branch.
+
+The people in [`.github/CODEOWNERS`](.github/CODEOWNERS) are asked to review,
+and notified of, every pull request that changes `projects/`.
+
+The workflow needs **Settings → Actions → General → Allow GitHub Actions to
+create and approve pull requests** turned on. Pull requests it opens don't
+start other workflows, so it runs the link check itself.
 
 | Field | Used for |
 |-------|----------|

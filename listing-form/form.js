@@ -1,12 +1,11 @@
 // GeoLab Library listing form: builds a project listing YAML file from the form.
 // Field order and keys follow template.yml in the geolab-library repository.
 
-// TESTING ONLY: pull requests go to the sparafina-earthscope fork. Change back to
-// 'EarthScope/geolab-library' and 'main' before merging into EarthScope.
+// TESTING ONLY: submissions go to the sparafina-earthscope fork. Change back to
+// 'EarthScope/geolab-library' before merging into EarthScope.
 const REPO = 'sparafina-earthscope/geolab-library';
-const BRANCH = 'submit-form';
 const PROJECTS_DIR = 'projects';
-// GitHub rejects very long URLs; past this, the file is pasted in by hand.
+// GitHub rejects very long URLs; past this, the listing is pasted in by hand.
 const MAX_GITHUB_URL = 8000;
 
 // ── YAML output ────────────────────────────────────────────────────────
@@ -461,13 +460,33 @@ form.addEventListener('reset', () => {
   });
 });
 
-// GitHub's "new file" page, with the file name and contents filled in. Signing in,
-// committing and creating the pull request happen there; GitHub forks the
-// repository for people who can't push to it.
-function githubNewFileUrl(name, yaml) {
-  const params = new URLSearchParams({ filename: name });
-  if (yaml !== undefined) params.set('value', yaml);
-  return `https://github.com/${REPO}/new/${BRANCH}/${PROJECTS_DIR}?${params}`;
+// Submissions are GitHub issues. The "Listing from issue" workflow
+// (scripts/listing_from_issue.py) reads the file name from the marker comment
+// and the listing from the yaml block, then opens the pull request on a
+// branch named after the file.
+const PASTE_HERE = '# Paste your listing here, replacing this line.';
+
+function issueBody(name, yaml) {
+  // A fence longer than any run of backticks in the listing.
+  const longest = Math.max(0, ...(yaml.match(/`+/g) ?? []).map((run) => run.length));
+  const fence = '`'.repeat(Math.max(3, longest + 1));
+  const branch = name.replace(/\.yml$/, '');
+  return [
+    `<!-- listing-form: ${PROJECTS_DIR}/${name} -->`,
+    `Submitted with the GeoLab Library listing form. When this issue is created, a pull request that adds \`${PROJECTS_DIR}/${name}\` is opened on a branch called \`${branch}\`, and the library's maintainers are asked to review it. A link to the pull request is posted here.`,
+    '',
+    'To change the listing, edit this issue. Keep the first line and the code block.',
+    '',
+    `${fence}yaml`,
+    yaml.trimEnd(),
+    fence,
+    '',
+  ].join('\n');
+}
+
+function issueUrl(name, yaml) {
+  const params = new URLSearchParams({ title: `New listing: ${name}`, body: issueBody(name, yaml) });
+  return `https://github.com/${REPO}/issues/new?${params}`;
 }
 
 // Native validation runs before 'submit', so this only runs when every field is valid.
@@ -475,21 +494,22 @@ form.addEventListener('submit', (event) => {
   event.preventDefault();
   const yaml = toYaml(readForm());
   const name = fileName();
-  const url = githubNewFileUrl(name, yaml);
+  const url = issueUrl(name, yaml);
+  const next = 'Choose Create to submit it. A pull request is opened for you and linked in the issue.';
 
   if (url.length <= MAX_GITHUB_URL) {
     window.open(url, '_blank', 'noopener');
-    status.textContent = `Opened GitHub in a new tab with ${name}. Choose Commit changes, then Create pull request.`;
+    status.textContent = `Opened a new GitHub issue with ${name}. ${next}`;
     return;
   }
 
-  // Too long for a link: open the page with just the file name, and copy the
-  // contents for pasting. Both start here, while the click still counts.
+  // Too long for a link: open the issue without the listing, and copy it for
+  // pasting. Both start here, while the click still counts.
   const copied = navigator.clipboard?.writeText(yaml) ?? Promise.reject();
-  window.open(githubNewFileUrl(name), '_blank', 'noopener');
+  window.open(issueUrl(name, PASTE_HERE), '_blank', 'noopener');
   copied.then(
-    () => { status.textContent = `Your listing is too long to fill in on GitHub, so it's been copied. Paste it into ${name} in the new tab, then choose Commit changes and Create pull request.`; },
-    () => { status.textContent = `Your listing is too long to fill in on GitHub. Copy it with the button above the preview and paste it into ${name} in the new tab, then choose Commit changes and Create pull request.`; },
+    () => { status.textContent = `Your listing is too long to fill in on GitHub, so it's been copied. In the new tab, paste it over the line inside the code block. ${next}`; },
+    () => { status.textContent = `Your listing is too long to fill in on GitHub. Copy it with the button above the preview, and in the new tab, paste it over the line inside the code block. ${next}`; },
   );
 });
 

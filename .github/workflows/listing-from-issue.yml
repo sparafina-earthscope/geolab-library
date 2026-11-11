@@ -1,0 +1,43 @@
+# Turns an issue made by the listing form into a pull request: checks the
+# links, commits the listing to a branch named after the file, and opens a
+# pull request (CODEOWNERS asks the maintainers to review it). Editing the
+# issue updates the pull request. See scripts/listing_from_issue.py.
+#
+# Needs Settings → Actions → General → "Allow GitHub Actions to create and
+# approve pull requests". Pull requests opened by this workflow don't start
+# other workflows, so the link check runs here instead of in "Check listings".
+name: Listing from issue
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: listing-issue-${{ github.event.issue.number }}
+
+jobs:
+  pull-request:
+    if: >-
+      github.event.issue.state == 'open'
+      && contains(github.event.issue.body, '<!-- listing-form:')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: pip install "PyYAML>=6,<7"
+
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/listing_from_issue.py

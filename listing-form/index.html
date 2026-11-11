@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GeoLab Library Listing</title>
-  <meta name="description" content="Fill out a GeoLab Community Library project listing and open a pull request to add it.">
+  <meta name="description" content="Fill out a GeoLab Community Library project listing and submit it on GitHub.">
   <meta name="color-scheme" content="light dark">
   <link rel="stylesheet" href="form.css">
   <script src="form.js" defer></script>
@@ -13,14 +13,14 @@
   <header class="page-header">
     <h1 id="form-title">GeoLab Library project listing</h1>
     <p>
-      Fill out this form to create the listing file for your project. When you're done, open a pull request
-      to add it to the <code>projects/</code> folder of the
-      <a href="https://github.com/EarthScope/geolab-library">geolab-library repository</a>. The library's
-      maintainers are notified when it's opened.
+      Fill out this form to create the listing file for your project. When you're done, submit it on GitHub,
+      and a pull request that adds it to the <code>projects/</code> folder of the
+      <a href="https://github.com/EarthScope/geolab-library">geolab-library repository</a> is opened for you.
+      The library's maintainers are notified when it's opened.
       See <a href="https://docs.earthscope.org/geolab/library/contributing">Contributing to the Library</a>
       for the full steps.
     </p>
-    <p>Nothing you enter leaves your browser until you open the pull request yourself.</p>
+    <p>Nothing you enter leaves your browser until you submit it on GitHub yourself.</p>
     <noscript>
       <p class="notice">This form needs JavaScript to build the file. You can also copy
         <a href="https://github.com/EarthScope/geolab-library/blob/main/template.yml">template.yml</a>
@@ -258,13 +258,14 @@
       </fieldset>
 
       <div class="actions">
-        <button type="submit" class="primary" aria-describedby="pr-hint">Open pull request</button>
+        <button type="submit" class="primary" aria-describedby="pr-hint">Submit on GitHub</button>
         <button type="reset">Clear form</button>
       </div>
-      <p class="hint">Links are checked when you leave each link field. Warnings don't stop you from opening the pull request.</p>
+      <p class="hint">Links are checked when you leave each link field. Warnings don't stop you from submitting.</p>
       <p id="pr-hint" class="hint">
-        <strong>Open pull request</strong> opens GitHub with your file already in the <code>projects/</code> folder.
-        Sign in, choose <strong>Commit changes</strong>, then <strong>Create pull request</strong>.
+        <strong>Submit on GitHub</strong> opens a new GitHub issue with your listing in it. Sign in and choose
+        <strong>Create</strong>. A pull request is then opened for you on a branch named after your file,
+        and a link to it is posted in the issue. You need a GitHub account.
       </p>
       <p id="form-status" class="status" role="status"></p>
     </form>
