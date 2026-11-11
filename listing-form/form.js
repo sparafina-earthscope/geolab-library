@@ -1,8 +1,10 @@
 // GeoLab Library listing form: builds a project listing YAML file from the form.
 // Field order and keys follow template.yml in the geolab-library repository.
 
-const REPO = 'EarthScope/geolab-library';
-const BRANCH = 'main';
+// TESTING ONLY: pull requests go to the sparafina-earthscope fork. Change back to
+// 'EarthScope/geolab-library' and 'main' before merging into EarthScope.
+const REPO = 'sparafina-earthscope/geolab-library';
+const BRANCH = 'submit-form';
 const PROJECTS_DIR = 'projects';
 // GitHub rejects very long URLs; past this, the file is pasted in by hand.
 const MAX_GITHUB_URL = 8000;
