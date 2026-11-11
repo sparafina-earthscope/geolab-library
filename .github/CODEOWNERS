@@ -1,0 +1,4 @@
+# GitHub asks these people to review, and notifies them of, every pull
+# request that adds or changes a project listing, including the ones opened
+# from the listing form. Each must have write access to the repository.
+/projects/ @adam-earthscope @rmg55 @tmegow

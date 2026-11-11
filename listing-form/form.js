@@ -4,7 +4,7 @@
 const REPO = 'EarthScope/geolab-library';
 const BRANCH = 'main';
 const PROJECTS_DIR = 'projects';
-// GitHub rejects very long URLs; past this, ask people to download the file instead.
+// GitHub rejects very long URLs; past this, the file is pasted in by hand.
 const MAX_GITHUB_URL = 8000;
 
 // ── YAML output ────────────────────────────────────────────────────────
@@ -229,7 +229,7 @@ document.addEventListener('reset', (e) => {
 }, true);
 
 // ── Link checks ────────────────────────────────────────────────────────
-// Warnings only: they never stop someone downloading the file. The pull
+// Warnings only: they never stop someone opening the pull request. The pull
 // request check (scripts/check_listings.py) runs the same checks, and more.
 
 class CheckFailed extends Error {}
@@ -459,17 +459,12 @@ form.addEventListener('reset', () => {
   });
 });
 
-function download(yaml, name) {
-  const url = URL.createObjectURL(new Blob([yaml], { type: 'application/yaml' }));
-  const link = Object.assign(document.createElement('a'), { href: url, download: name });
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-function githubNewFileUrl(yaml, name) {
-  const params = new URLSearchParams({ filename: name, value: yaml });
+// GitHub's "new file" page, with the file name and contents filled in. Signing in,
+// committing and creating the pull request happen there; GitHub forks the
+// repository for people who can't push to it.
+function githubNewFileUrl(name, yaml) {
+  const params = new URLSearchParams({ filename: name });
+  if (yaml !== undefined) params.set('value', yaml);
   return `https://github.com/${REPO}/new/${BRANCH}/${PROJECTS_DIR}?${params}`;
 }
 
@@ -478,20 +473,22 @@ form.addEventListener('submit', (event) => {
   event.preventDefault();
   const yaml = toYaml(readForm());
   const name = fileName();
+  const url = githubNewFileUrl(name, yaml);
 
-  if (event.submitter?.value === 'github') {
-    const url = githubNewFileUrl(yaml, name);
-    if (url.length > MAX_GITHUB_URL) {
-      status.textContent = `Your listing is too long to send to GitHub in a link. Download ${name} instead and upload it to the ${PROJECTS_DIR}/ folder.`;
-      return;
-    }
+  if (url.length <= MAX_GITHUB_URL) {
     window.open(url, '_blank', 'noopener');
-    status.textContent = `Opened GitHub in a new tab with ${name}. Follow the steps there to open a pull request.`;
+    status.textContent = `Opened GitHub in a new tab with ${name}. Choose Commit changes, then Create pull request.`;
     return;
   }
 
-  download(yaml, name);
-  status.textContent = `Downloaded ${name}. Add it to the ${PROJECTS_DIR}/ folder of ${REPO} in a pull request.`;
+  // Too long for a link: open the page with just the file name, and copy the
+  // contents for pasting. Both start here, while the click still counts.
+  const copied = navigator.clipboard?.writeText(yaml) ?? Promise.reject();
+  window.open(githubNewFileUrl(name), '_blank', 'noopener');
+  copied.then(
+    () => { status.textContent = `Your listing is too long to fill in on GitHub, so it's been copied. Paste it into ${name} in the new tab, then choose Commit changes and Create pull request.`; },
+    () => { status.textContent = `Your listing is too long to fill in on GitHub. Copy it with the button above the preview and paste it into ${name} in the new tab, then choose Commit changes and Create pull request.`; },
+  );
 });
 
 // ── Copy button ────────────────────────────────────────────────────────

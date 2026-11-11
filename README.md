@@ -12,6 +12,11 @@ with [MyST](https://mystmd.org) and deployed by Netlify.
 Copy [`template.yml`](template.yml) into `projects/`, fill it in, and open a
 pull request. See https://docs.earthscope.org/geolab/library/contributing for contributor instructions.
 
+Or fill in the [listing form](listing-form/), which opens the pull request on
+GitHub with the file already written. The people in
+[`.github/CODEOWNERS`](.github/CODEOWNERS) are asked to review, and notified
+of, every pull request that changes `projects/`.
+
 | Field | Used for |
 |-------|----------|
 | `title` | Card title |
