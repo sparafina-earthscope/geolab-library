@@ -24,6 +24,11 @@ log. Editing the issue updates the pull request, or runs everything again
 if no pull request was opened. It won't overwrite an existing listing, or a
 branch it didn't make for that issue.
 
+[![How a listing becomes a pull request: the contributor's form and issue, the
+Listing from issue workflow's checks, and the pull request](docs/listing-workflow.png)](docs/listing-workflow.png)
+
+The diagram's source is [`docs/listing-workflow.svg`](docs/listing-workflow.svg).
+
 To turn down a submission, close the issue. Closing only the pull request
 lets the contributor's next edit open a new one.
 

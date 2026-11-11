@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1204" height="1878" viewBox="0 0 1204 1878" role="img" aria-label="A listing-form submission opens a GitHub issue. The Listing from issue workflow checks it, commits the listing to a branch named after the file, and opens a pull request; problems come back as an issue comment, and editing the issue runs the checks again.">
+<!-- Source for listing-workflow.png. Plain SVG: edit the text and coordinates directly. -->
+<title>How a listing becomes a pull request</title><desc>A listing-form submission opens a GitHub issue. The Listing from issue workflow checks it, commits the listing to a branch named after the file, and opens a pull request; problems come back as an issue comment, and editing the issue runs the checks again.</desc>
+<defs>
+<marker id="head-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#59636e"/></marker>
+<marker id="head-red" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#cf222e"/></marker>
+<marker id="head-green" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1a7f37"/></marker>
+</defs>
+<rect width="1204" height="1878" fill="#ffffff"/>
+<text x="24" y="46" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1f2328" text-anchor="start">How a listing becomes a pull request</text>
+<text x="24" y="74" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#59636e" text-anchor="start">GeoLab Library listing form, with the example file name gnss_ir.yml</text>
+<rect data-lane="Contributor" x="24" y="96" width="330" height="1360" rx="10" fill="#f6f8fa" stroke="#e4e8ec"/>
+<text x="206" y="126" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#1f2328" text-anchor="middle" letter-spacing="0.06em">CONTRIBUTOR</text>
+<text x="206" y="146" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="middle">the listing form, then the GitHub issue</text>
+<rect data-lane="Listing from issue" x="374" y="96" width="440" height="1360" rx="10" fill="#f6f8fa" stroke="#e4e8ec"/>
+<text x="540" y="126" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#1f2328" text-anchor="middle" letter-spacing="0.06em">LISTING FROM ISSUE</text>
+<text x="540" y="146" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="middle">GitHub Actions workflow</text>
+<rect data-lane="Pull request" x="834" y="96" width="346" height="1754" rx="10" fill="#f6f8fa" stroke="#e4e8ec"/>
+<text x="1007" y="126" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#1f2328" text-anchor="middle" letter-spacing="0.06em">PULL REQUEST</text>
+<text x="1007" y="146" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="middle">on a branch named after the file</text>
+<g data-node="c1"><rect x="72" y="170" width="268" height="60" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="206" y="196" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Fill in the listing form</text>
+<text x="206" y="214" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">links checked as you go</text>
+</g>
+<g data-node="c2"><rect x="72" y="274" width="268" height="96" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="206" y="300" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Submit on GitHub</text>
+<text x="206" y="318" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">opens a prefilled new-issue page;</text>
+<text x="206" y="336" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">if it’s too long for a link, paste</text>
+<text x="206" y="354" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the copied listing in yourself</text>
+</g>
+<polyline points="206,230 206,274" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<g data-node="issue"><rect x="72" y="422" width="268" height="200" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<circle cx="94" cy="444" r="7.5" fill="none" stroke="#1f883d" stroke-width="2"/><circle cx="94" cy="444" r="2.2" fill="#1f883d"/>
+<text x="110" y="449" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="start">New listing: gnss_ir.yml</text>
+<line x1="72" y1="464" x2="340" y2="464" stroke="#818b98" stroke-opacity="0.5"/>
+<text x="88" y="486" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="400" fill="#59636e" text-anchor="start" xml:space="preserve">&lt;!-- listing-form:</text>
+<text x="88" y="503" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="400" fill="#59636e" text-anchor="start" xml:space="preserve">     projects/gnss_ir.yml --&gt;</text>
+<text x="88" y="520" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="400" fill="#1f2328" text-anchor="start" xml:space="preserve">```yaml</text>
+<text x="88" y="537" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="400" fill="#1f2328" text-anchor="start" xml:space="preserve">title: GNSS-IR example</text>
+<text x="88" y="554" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="400" fill="#1f2328" text-anchor="start" xml:space="preserve">…</text>
+<text x="88" y="571" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="400" fill="#1f2328" text-anchor="start" xml:space="preserve">```</text>
+<text x="240" y="486" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12.5" font-weight="600" fill="#0550ae" text-anchor="start">← file name</text>
+<rect x="256" y="584" width="70" height="26" rx="6" fill="#1f883d"/>
+<text x="291" y="602" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">Create</text>
+</g>
+<polyline points="206,370 206,422" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="215" y="401" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">opens</text>
+<g data-node="trigger"><rect x="415" y="506" width="250" height="32" rx="16" fill="#ddf4ff" stroke="#0969da" stroke-width="1.25"/>
+<text x="540" y="527" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#0550ae" text-anchor="middle">on: issues · opened, edited</text>
+</g>
+<polyline points="340,522 415,522" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="377.5" y="513" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="middle">triggers</text>
+<g data-node="g0"><rect x="390" y="570" width="300" height="60" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="1.75"/>
+<text x="540" y="596" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Open, with the listing-form line?</text>
+<text x="540" y="614" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the hidden first line of the issue</text>
+</g>
+<polyline points="540,538 540,570" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<g data-node="skipped"><rect x="716" y="578" width="92" height="44" rx="10" fill="#f6f8fa" stroke="#59636e" stroke-width="1.25"/>
+<text x="762" y="597" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636e" text-anchor="middle">skipped,</text>
+<text x="762" y="613" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#59636e" text-anchor="middle">no comment</text>
+</g>
+<polyline points="690,600 716,600" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="703" y="591" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="middle">no</text>
+<g data-node="g1"><rect x="390" y="686" width="300" height="96" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="1.75"/>
+<text x="540" y="712" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Valid file name and listing?</text>
+<text x="540" y="730" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">name: letters, digits, - and _,</text>
+<text x="540" y="748" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">not starting with - or _</text>
+<text x="540" y="766" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">YAML with title, summary, github</text>
+</g>
+<polyline points="540,630 540,686" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="549" y="663" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">yes</text>
+<g data-node="g2"><rect x="390" y="832" width="300" height="96" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="1.75"/>
+<text x="540" y="858" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">File name free?</text>
+<text x="540" y="876" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">not already a listing; no branch</text>
+<text x="540" y="894" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">but this issue’s own has the name;</text>
+<text x="540" y="912" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">can’t change once the PR is open</text>
+</g>
+<polyline points="540,782 540,832" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="549" y="812" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">yes</text>
+<g data-node="g3"><rect x="390" y="978" width="300" height="78" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="1.75"/>
+<text x="540" y="1004" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Links work?</text>
+<text x="540" y="1022" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">repo, notebook, thumbnail, image;</text>
+<text x="540" y="1040" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">unreachable ones pass as warnings</text>
+</g>
+<polyline points="540,928 540,978" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="549" y="958" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">yes</text>
+<g data-node="problem"><rect x="72" y="660" width="268" height="449" rx="8" fill="#ffffff"/>
+<rect x="72" y="660" width="268" height="60" rx="8" fill="#ffebe9"/><rect x="72" y="712" width="268" height="8" fill="#ffebe9"/>
+<line x1="72" y1="720" x2="340" y2="720" stroke="#cf222e" stroke-opacity="0.4"/>
+<rect x="72" y="660" width="268" height="449" rx="8" fill="none" stroke="#cf222e" stroke-width="1.75"/>
+<text x="206" y="686" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Bot comment: the problem</text>
+<text x="206" y="705" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the run stops at the first one</text>
+<text x="206" y="739" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#1f2328" text-anchor="middle">bad file name or listing</text>
+<text x="206" y="885" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#1f2328" text-anchor="middle">file name taken, or changed</text>
+<text x="206" y="1022" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#1f2328" text-anchor="middle">broken links, each listed</text>
+<line x1="90" y1="807" x2="322" y2="807" stroke="#cf222e" stroke-opacity="0.3"/>
+<line x1="90" y1="948.5" x2="322" y2="948.5" stroke="#cf222e" stroke-opacity="0.3"/>
+<line x1="90" y1="1047" x2="322" y2="1047" stroke="#cf222e" stroke-opacity="0.3"/>
+<text x="206" y="1075" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">ends with “Edit this issue to fix it,</text>
+<text x="206" y="1094" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">and the check runs again.”</text>
+</g>
+<polyline points="390,734 340,734" fill="none" stroke="#cf222e" stroke-width="1.75" marker-end="url(#head-red)"/>
+<text x="365" y="725" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#cf222e" text-anchor="middle">no</text>
+<polyline points="390,880 340,880" fill="none" stroke="#cf222e" stroke-width="1.75" marker-end="url(#head-red)"/>
+<text x="365" y="871" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#cf222e" text-anchor="middle">no</text>
+<polyline points="390,1017 340,1017" fill="none" stroke="#cf222e" stroke-width="1.75" marker-end="url(#head-red)"/>
+<text x="365" y="1008" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#cf222e" text-anchor="middle">no</text>
+<g data-node="w1"><rect x="390" y="1112" width="300" height="96" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="540" y="1138" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Commit projects/gnss_ir.yml</text>
+<text x="540" y="1156" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">to branch gnss_ir, by github-actions[bot],</text>
+<text x="540" y="1174" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">with the contributor as co-author;</text>
+<text x="540" y="1192" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">nothing changed? no commit</text>
+</g>
+<polyline points="540,1056 540,1112" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="549" y="1089" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">yes</text>
+<g data-node="g4"><rect x="390" y="1254" width="300" height="42" rx="8" fill="#ffffff" stroke="#0969da" stroke-width="1.75"/>
+<text x="540" y="1280" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Needs a new pull request?</text>
+</g>
+<polyline points="540,1208 540,1254" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<g data-node="w2"><rect x="390" y="1348" width="300" height="78" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.75"/>
+<text x="540" y="1374" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Open a pull request</text>
+<text x="540" y="1392" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">“Add listing: gnss_ir.yml”;</text>
+<text x="540" y="1410" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">it closes the issue when merged</text>
+</g>
+<polyline points="540,1296 540,1348" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="549" y="1327" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">yes</text>
+<g data-node="result"><rect x="72" y="1191" width="268" height="228" rx="8" fill="#ffffff"/>
+<rect x="72" y="1191" width="268" height="60" rx="8" fill="#dafbe1"/><rect x="72" y="1243" width="268" height="8" fill="#dafbe1"/>
+<line x1="72" y1="1251" x2="340" y2="1251" stroke="#1a7f37" stroke-opacity="0.4"/>
+<rect x="72" y="1191" width="268" height="228" rx="8" fill="none" stroke="#1a7f37" stroke-width="1.75"/>
+<text x="206" y="1217" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Bot comment: the result</text>
+<text x="206" y="1236" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">with any link warnings</text>
+<text x="206" y="1280" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#1f2328" text-anchor="middle">“Updated pull request #12”</text>
+<text x="206" y="1298" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">if the listing changed</text>
+<line x1="90" y1="1339" x2="322" y2="1339" stroke="#1a7f37" stroke-opacity="0.3"/>
+<text x="206" y="1392" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#1f2328" text-anchor="middle">link to the new pull request</text>
+</g>
+<polyline points="390,1275 340,1275" fill="none" stroke="#1a7f37" stroke-width="1.75" marker-end="url(#head-green)"/>
+<text x="365" y="1266" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1a7f37" text-anchor="middle">no</text>
+<polyline points="390,1387 340,1387" fill="none" stroke="#1a7f37" stroke-width="1.75" marker-end="url(#head-green)"/>
+<polyline points="72,690 52,690" fill="none" stroke="#59636e" stroke-width="1.75" stroke-dasharray="6 5"/>
+<polyline points="72,1221 52,1221 52,592 72,592" fill="none" stroke="#59636e" stroke-width="1.75" stroke-dasharray="6 5" marker-end="url(#head-arrow)"/>
+<text x="40" y="1150" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="middle" data-skip="1" transform="rotate(-90 40 1150)">contributor edits the issue</text>
+<g data-node="p1"><rect x="850" y="1121" width="314" height="78" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="1007" y="1147" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Branch gnss_ir</text>
+<text x="1007" y="1165" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">named after the file;</text>
+<text x="1007" y="1183" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">one commit per change</text>
+</g>
+<polyline points="690,1160 850,1160" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="770" y="1151" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="middle">push</text>
+<g data-node="p2"><rect x="850" y="1348" width="314" height="78" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.75"/>
+<text x="1007" y="1374" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Pull request</text>
+<text x="1007" y="1392" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">“Add listing: gnss_ir.yml”,</text>
+<text x="1007" y="1410" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">opened by github-actions[bot]</text>
+</g>
+<polyline points="690,1387 850,1387" fill="none" stroke="#1a7f37" stroke-width="1.75" marker-end="url(#head-green)"/>
+<text x="770" y="1378" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#1a7f37" text-anchor="middle">opens</text>
+<polyline points="1007,1199 1007,1348" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="1016" y="1278.5" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">head branch</text>
+<g data-node="p3"><rect x="850" y="1474" width="314" height="78" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="1007" y="1500" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Maintainers asked to review</text>
+<text x="1007" y="1518" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">GitHub requests it from</text>
+<text x="1007" y="1536" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">.github/CODEOWNERS</text>
+</g>
+<polyline points="1007,1426 1007,1474" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="1016" y="1455" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">review request</text>
+<g data-node="p4"><rect x="850" y="1600" width="314" height="96" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="1007" y="1626" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Approve “Check listings”</text>
+<text x="1007" y="1644" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the pull request’s link check: GitHub</text>
+<text x="1007" y="1662" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">holds each run the bot starts until</text>
+<text x="1007" y="1680" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">a maintainer approves it</text>
+</g>
+<polyline points="1007,1552 1007,1600" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<g data-node="p5"><rect x="850" y="1744" width="314" height="78" rx="8" fill="#ffffff" stroke="#818b98" stroke-width="1.25"/>
+<text x="1007" y="1770" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#1f2328" text-anchor="middle">Merge</text>
+<text x="1007" y="1788" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">the site rebuilds with the listing,</text>
+<text x="1007" y="1806" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="middle">and the issue closes</text>
+</g>
+<polyline points="1007,1696 1007,1744" fill="none" stroke="#59636e" stroke-width="1.75" marker-end="url(#head-arrow)"/>
+<text x="1016" y="1725" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#59636e" text-anchor="start" data-v="1">check passed</text>
+<text x="24" y="1500" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#1f2328" text-anchor="start">Good to know</text>
+<circle cx="29" cy="1521.0" r="2.5" fill="#59636e"/>
+<text x="40" y="1526" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="start">Needs Settings → Actions → General → “Allow GitHub Actions to create and approve pull requests”.</text>
+<circle cx="29" cy="1545.0" r="2.5" fill="#59636e"/>
+<text x="40" y="1550" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="start">The issue is the listing’s source: each edit replaces the file on the branch, even fixes made there.</text>
+<circle cx="29" cy="1569.0" r="2.5" fill="#59636e"/>
+<text x="40" y="1574" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="start">A run that fails unexpectedly comments with a link to its log; editing the issue tries again.</text>
+<circle cx="29" cy="1593.0" r="2.5" fill="#59636e"/>
+<text x="40" y="1598" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#59636e" text-anchor="start">To turn a submission down, close the issue. Closing only the pull request lets an edit open a new one.</text>
+<rect x="24" y="1632.0" width="15" height="15" rx="3" fill="#ffffff" stroke="#0969da" stroke-width="1.75"/>
+<text x="47" y="1644" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="start">a check</text>
+<rect x="125.30000000000001" y="1632.0" width="15" height="15" rx="3" fill="#ffebe9" stroke="#cf222e" stroke-width="1.75"/>
+<text x="148.3" y="1644" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="start">a problem: the run stops</text>
+<rect x="343.90000000000003" y="1632.0" width="15" height="15" rx="3" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.75"/>
+<text x="366.9" y="1644" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="start">the pull request and its comment</text>
+<line x1="24" y1="1665.0" x2="56" y2="1665.0" stroke="#59636e" stroke-width="1.75" stroke-dasharray="6 5" marker-end="url(#head-arrow)"/>
+<text x="66" y="1670" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#59636e" text-anchor="start">something the contributor does</text>
+</svg>
