@@ -7,6 +7,7 @@
 # approve pull requests". Pull requests opened by this workflow don't start
 # other workflows, so the link check runs here instead of in "Check listings".
 name: Listing from issue
+run-name: "Listing from issue #${{ github.event.issue.number }}"
 
 on:
   issues:
@@ -39,5 +40,6 @@ jobs:
       - name: Open or update the pull request
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }} # never the parent repository of a fork
           GITHUB_TOKEN: ${{ github.token }}
         run: python scripts/listing_from_issue.py
