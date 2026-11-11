@@ -19,15 +19,22 @@ listing in it. When the issue is created, the
 links, commits the file to a branch named after it (`gnss_ir.yml` goes on
 branch `gnss_ir`), opens a pull request that closes the issue, and posts the
 link in the issue. If something's wrong, it says so in an issue comment
-instead. Editing the issue updates the pull request. It won't overwrite an
-existing listing or branch.
+instead, and a run that fails unexpectedly also comments and links to its
+log. Editing the issue updates the pull request, or runs everything again
+if no pull request was opened. It won't overwrite an existing listing, or a
+branch it didn't make for that issue.
+
+To turn down a submission, close the issue. Closing only the pull request
+lets the contributor's next edit open a new one.
 
 The people in [`.github/CODEOWNERS`](.github/CODEOWNERS) are asked to review,
 and notified of, every pull request that changes `projects/`.
 
 The workflow needs **Settings → Actions → General → Allow GitHub Actions to
-create and approve pull requests** turned on. Pull requests it opens don't
-start other workflows, so it runs the link check itself.
+create and approve pull requests** turned on. It runs the link check itself,
+before committing. On the pull requests it opens, GitHub holds the
+[Check listings](.github/workflows/check-listings.yml) run until a maintainer
+approves it (**Approve and run** on the pull request).
 
 | Field | Used for |
 |-------|----------|

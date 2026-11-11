@@ -30,6 +30,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from http.client import HTTPException, InvalidURL
 
 import yaml
 
@@ -52,19 +53,41 @@ class Unreachable(Exception):
     """The server couldn't be reached, or kept failing: we can't tell if the link works."""
 
 
+class BadURL(Exception):
+    """The link isn't a web address that can be opened, so it's broken."""
+
+
 # ── HTTP ────────────────────────────────────────────────────────────────
 
+# Characters a URL may contain as they are; anything else (spaces, non-ASCII)
+# is percent-encoded, as a browser does when it follows the link.
+URL_SAFE = ":/?#[]@!$&'()*+,;=%"
+MAX_BODY = 1_000_000  # bytes read from a response; JSON from GitHub and registries is far smaller
+
+
 def http(url, method="GET", headers=None, read=False, tries=3):
-    """Return (status, headers, body). Retries timeouts and 5xx; raises Unreachable."""
-    request = urllib.request.Request(url, method=method, headers={"User-Agent": USER_AGENT, **(headers or {})})
+    """Return (status, headers, body). Retries timeouts and 5xx.
+
+    Raises Unreachable when the server can't be reached, and BadURL when the
+    link isn't an http(s) address at all.
+    """
+    if not re.match(r"https?://[^/?#\s]", url, re.IGNORECASE):
+        raise BadURL(f"{url} isn't a full web address (it should start with https://)")
+    try:
+        request = urllib.request.Request(urllib.parse.quote(url, safe=URL_SAFE), method=method,
+                                         headers={"User-Agent": USER_AGENT, **(headers or {})})
+    except ValueError as err:
+        raise BadURL(f"{url} isn't a valid web address") from err
     for attempt in range(tries):
         try:
             with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
-                return response.status, response.headers, response.read() if read else b""
+                return response.status, response.headers, response.read(MAX_BODY) if read else b""
         except urllib.error.HTTPError as err:
             if err.code < 500 or attempt == tries - 1:
                 return err.code, err.headers, b""
-        except (urllib.error.URLError, TimeoutError, ConnectionError) as err:
+        except (InvalidURL, UnicodeError) as err:
+            raise BadURL(f"{url} isn't a valid web address") from err
+        except (urllib.error.URLError, TimeoutError, ConnectionError, HTTPException) as err:
             if attempt == tries - 1:
                 raise Unreachable(f"couldn't connect ({getattr(err, 'reason', err)})") from err
         time.sleep(2 * (attempt + 1))
@@ -181,7 +204,7 @@ def check_nbgitpuller(url):
 
 def check_thumbnail(metadata):
     thumbnail = str(metadata.get("thumbnail") or "").strip()
-    url = thumbnail_url({**metadata, "thumbnail": thumbnail})
+    url = thumbnail_url({**metadata, "thumbnail": thumbnail, "github": str(metadata.get("github") or "").strip()})
     if url is None:
         return [("error", "thumbnail: a path inside the repository only works when `github` is the "
                           "repository's main page (https://github.com/org/repo); use the image's full URL instead")]
@@ -285,6 +308,10 @@ def check_file(path):
             problems.extend(check())
         except Unreachable as err:
             problems.append(("warning", f"{key}: couldn't be checked: {err}"))
+        except BadURL as err:
+            problems.append(("error", f"{key}: {err}"))
+        except ValueError as err:  # the URL parser rejected it, e.g. an unclosed [ in the host
+            problems.append(("error", f"{key}: isn't a valid web address ({err})"))
     return problems
 
 
